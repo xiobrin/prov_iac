@@ -1,6 +1,6 @@
 ---
-- hosts: "10.237.198.154"
-  #remote_user: root
+- hosts: all
+  remote_user: atb
   # remote_password: Password#1
   tasks:
   - name: list docker packages
