@@ -1,12 +1,28 @@
 ---
 - hosts: all
   remote_user: atb
-  # remote_password: Password#1
+  #  become_ask_pass: True
+
+ # remote_password: Password#1
   tasks:
-  - name: list docker packages
+  - name: Update all packages
+    yum:
+      name: '*'
+      state: latest
+    become: Yes
+    become_method: sudo
+    become_user: root
+  - name: install docker packages
     yum:
       name: "{{ packages }}"
     vars:
       packages:
       - docker
-      - docker-compose  
+        #  - docker-compose
+      state: present
+    register: result
+    become: Yes
+    become_method: sudo
+    become_user: root
+    #  - debug: msg="{{ result.stdout }}"
+
