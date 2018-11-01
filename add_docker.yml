@@ -25,4 +25,9 @@
     become_method: sudo
     become_user: root
     #  - debug: msg="{{ result.stdout }}"
-
+  - name: Start Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    become: Yes
