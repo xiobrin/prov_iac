@@ -1,9 +1,6 @@
 ---
 - hosts: all
   remote_user: atb
-  #  become_ask_pass: True
-
- # remote_password: Password#1
   tasks:
   - name: Update all packages
     yum:
@@ -12,22 +9,51 @@
     become: Yes
     become_method: sudo
     become_user: root
-  - name: install docker packages
+
+  - name: install needed packages
     yum:
-      name: "{{ packages }}"
-    vars:
-      packages:
-      - docker
-        #  - docker-compose
+      name: 
+        - git
       state: present
-    register: result
+    become: yes
+
+  - name: remove docker packages
+    yum:
+      name: 
+        - docker
+        - docker-common
+      state: absent
     become: Yes
-    become_method: sudo
-    become_user: root
-    #  - debug: msg="{{ result.stdout }}"
+
+  - name: Add Docker repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      mode: 0644
+      dest: /etc/yum.repos.d/docker-ce.repo
+    become: yes
+
+  - name: Update all packages
+    yum:
+      name: '*'
+      state: latest
+    become: Yes
+
+  - name: Install Docker
+    package:
+      name: docker-ce
+      state: latest
+    become: yes
+
   - name: Start Docker service
     service:
       name: docker
       state: started
       enabled: yes
+    become: yes
+
+  - name: install the docker-compose executable
+    get_url: 
+      url: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64 
+      dest: /usr/bin/docker-compose
+      mode: 0755
     become: Yes
