@@ -1,0 +1,11 @@
+---
+- hosts: all
+  remote_user: atb
+  tasks:
+  - name: Register as user (joe_user) with password (somepass) and auto-subscribe to available content.
+    redhat_subscription:
+      state: present
+      username: ics_wa@yahoo.com
+      password: 1LoveRedhat.com
+      auto_attach: true 
+    become: Yes
