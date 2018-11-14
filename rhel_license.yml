@@ -1,11 +1,25 @@
 ---
 - hosts: all
+  vars_files:
+    - ./prov_vars.yml
   remote_user: atb
   tasks:
   - name: Register as user (joe_user) with password (somepass) and auto-subscribe to available content.
     redhat_subscription:
       state: present
       username: ics_wa@yahoo.com
-      password: {{ 'pwd' }}
+      password: "{{ passwd }}"
       auto_attach: true 
+    become: Yes
+  - name: Enable a RHSM repository
+    rhsm_repository:
+      name: 
+      - rhel-7-server-optional-rpms
+      - rhel-7-server-extras-rpms
+      state: enabled
+    become: Yes
+  - name: Install EPEL repo.
+    yum:
+     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+     state: present     
     become: Yes
