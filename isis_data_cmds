@@ -1,0 +1,9 @@
+sudo docker swarm init
+sudo docker stack deploy -c docker-compose.yml isi_data
+
+
+sudo docker service ls
+sudo docker service logs -f 8pzt2mhwzu1i
+sudo docker service ps 8pzt2mhwzu1i
+sudo watch docker service ps 8pzt2mhwzu1i
+sudo docker service ls
