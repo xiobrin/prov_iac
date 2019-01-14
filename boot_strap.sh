@@ -25,3 +25,6 @@ yum install python-pip
 
 echo "Installing Ansible"      
 sudo pip install ansible
+
+echo "Installing git"
+yum install git
