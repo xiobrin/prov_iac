@@ -1,6 +1,6 @@
 
 #!/bin/bash
-set -e
+#set -e
 
 if [ $# -ne 2 ]; then
   echo "Please provide your redhat username & password"
